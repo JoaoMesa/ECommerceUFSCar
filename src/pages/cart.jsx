@@ -22,6 +22,51 @@ export const Cart = () => {
     setItem("carrinhoyt", arrFilter);
   };
 
+  const handlePurchase = async () => {
+    if (!loggedUser) {
+      alert("Você precisa estar logado para realizar a compra.");
+      return;
+    }
+
+
+    const token = getItem("authToken");
+    console.log(token);
+
+    if (!token) {
+      alert("Token de autenticação não encontrado.");
+      return;
+    }
+
+    
+    const formattedProducts = data.map(item => ({
+      productId: item.id,
+      quantity: 1
+    }));
+
+    try {
+      const response = await fetch("http://localhost:5000/orders", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${token}`
+        },
+        body: JSON.stringify({ products: formattedProducts })
+      });
+
+      if (!response.ok) {
+        throw new Error("Erro ao realizar a compra.");
+      }
+
+
+      alert("Compra realizada com sucesso!");
+      setItem("carrinhoyt", []);
+      setData([]);
+    } catch (error) {
+      alert("Erro ao realizar a compra. Tente novamente.");
+      console.error(error);
+    }
+  };
+
   const subTotal = data.reduce((acc, cur) => acc + cur.price, 0);
 
   return (
@@ -40,6 +85,7 @@ export const Cart = () => {
           </div>
         ))}
       </ProductArea>
+      {data.length > 0 && <button onClick={handlePurchase}>Comprar</button>}
     </div>
   );
 };
