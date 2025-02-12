@@ -1,8 +1,86 @@
 import React, { useState, useEffect } from "react";
 import { getItem } from "../services/LocalStorageFuncs";
 import { AdminHeader} from "../components/AdminHeader";
+import styled from 'styled-components';
+
+const OrdersContainer = styled.div`
+    padding: 20px;
+    max-width: 1200px;
+    margin: 0 auto;
+    
+    h2 {
+        text-align: center;
+        color: rgb(88, 33, 105);
+        margin: 30px 0;
+    }
+
+    ul {
+        list-style: none;
+        padding: 0;
+        display: flex;
+        flex-direction: column;
+        gap: 30px;
+    }
+`;
+
+const OrderItem = styled.li`
+    border: 2px solid rgb(88, 33, 105);
+    padding: 20px;
+    border-radius: 8px;
+
+    > p {
+        margin: 0 0 15px 0;
+        font-size: 1.2rem;
+        color: rgb(88, 33, 105);
+        font-weight: bold;
+    }
+`;
+
+const ProductsList = styled.ul`
+    display: flex;
+    flex-wrap: wrap;
+    gap: 20px;
+    margin-bottom: 20px;
+
+    li {
+        display: flex;
+        align-items: center;
+        gap: 15px;
+        padding: 10px;
+        border: 1px solid #ddd;
+        border-radius: 5px;
+
+        img {
+            width: 60px;
+            height: 60px;
+            object-fit: cover;
+        }
+    }
+`;
+
+const OrderActions = styled.div`
+    display: flex;
+    gap: 15px;
+    margin-top: 20px;
+
+    button {
+        padding: 8px 15px;
+        border: 2px solid rgb(88, 33, 105);
+        border-radius: 5px;
+        background: transparent;
+        color: rgb(88, 33, 105);
+        cursor: pointer;
+        transition: all 0.3s;
+
+        &:hover {
+            background-color: rgb(88, 33, 105);
+            color: white;
+        }
+    }
+`;
 
 
+// ====================
 
 export const AdminOrders = () => {
   const [orders, setOrders] = useState([]);
@@ -54,32 +132,34 @@ export const AdminOrders = () => {
     }
   };
 
-  return (
-    <div>
-	< AdminHeader/ >
+return (
+    <OrdersContainer>
+      <AdminHeader />
       <h2>Gerenciar Pedidos</h2>
       <ul>
         {orders.map((order) => (
-          <li key={order.id}>
+          <OrderItem key={order.id}>
             <p>Pedido #{order.id} - Status: {order.status}</p>
-            <ul>
+            <ProductsList>
               {order.orderProduct.map((item) => (
                 <li key={item.id}>
-                  <img src={item.product.image} alt={item.product.name} width="50" />
-                  {item.product.name} - Quantidade: {item.quantity}
+                  <img src={item.product.image} alt={item.product.name} />
+                  <span>{item.product.name} - Quantidade: {item.quantity}</span>
                 </li>
               ))}
-            </ul>
-            <button onClick={() => updateOrderStatus(order.id, "OnWay")}>
-              Marcar como Enviado
-            </button>
-            <button onClick={() => updateOrderStatus(order.id, "Delivered")}>
-              Marcar como Entregue
-            </button>
-            <button onClick={() => deleteOrder(order.id)}>Excluir Pedido</button>
-          </li>
+            </ProductsList>
+            <OrderActions>
+              <button onClick={() => updateOrderStatus(order.id, "OnWay")}>
+                Marcar como Enviado
+              </button>
+              <button onClick={() => updateOrderStatus(order.id, "Delivered")}>
+                Marcar como Entregue
+              </button>
+              <button onClick={() => deleteOrder(order.id)}>Excluir Pedido</button>
+            </OrderActions>
+          </OrderItem>
         ))}
       </ul>
-    </div>
+    </OrdersContainer>
   );
 };
