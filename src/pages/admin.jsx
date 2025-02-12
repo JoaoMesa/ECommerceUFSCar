@@ -1,5 +1,116 @@
 import React, { useState, useEffect } from "react";
 import { getItem } from "../services/LocalStorageFuncs";
+import { AdminHeader } from "../components/AdminHeader";
+import styled from "styled-components";
+
+// Estilos consistentes com as outras páginas
+const AdminArea = styled.div`
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 30px;
+  margin-top: 20px;
+  padding: 20px;
+
+  h2 {
+    color: purple;
+    font-size: 2rem;
+  }
+
+  form {
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+    width: 300px;
+    padding: 20px;
+    border: 2px solid rgb(88, 33, 105);
+    border-radius: 8px;
+
+    label {
+      display: flex;
+      flex-direction: column;
+      gap: 5px;
+      font-weight: bold;
+    }
+
+    input {
+      padding: 8px;
+      font-size: 16px;
+      border: 1px solid purple;
+      border-radius: 4px;
+    }
+
+    button[type="submit"] {
+      padding: 10px;
+      background-color: purple;
+      color: white;
+      border: none;
+      border-radius: 4px;
+      cursor: pointer;
+      font-size: 16px;
+      margin-top: 10px;
+
+      &:hover {
+        background-color: #6a1b9a;
+      }
+    }
+  }
+
+  ul {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 20px;
+    justify-content: center;
+    padding: 0;
+
+    li {
+      list-style: none;
+      border: 2px solid rgb(88, 33, 105);
+      border-radius: 8px;
+      padding: 15px;
+      width: 250px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 10px;
+
+      img {
+        width: 160px;
+        height: 140px;
+        object-fit: cover;
+        border-radius: 4px;
+      }
+
+      button {
+        padding: 8px 15px;
+        margin: 0 5px;
+        border: none;
+        border-radius: 4px;
+        cursor: pointer;
+        font-weight: bold;
+
+        &:first-child {
+          background-color: #ffc107;
+          color: black;
+
+          &:hover {
+            background-color: #e0a800;
+          }
+        }
+
+        &:last-child {
+          background-color: #dc3545;
+          color: white;
+
+          &:hover {
+            background-color: #c82333;
+          }
+        }
+      }
+    }
+  }
+`;
+
 
 export const Admin = () => {
   const [products, setProducts] = useState([]);
@@ -68,6 +179,8 @@ export const Admin = () => {
 
   return (
     <div>
+	<AdminHeader/>
+	  <AdminArea>
       <h2>Gerenciar Produtos</h2>
       <form onSubmit={handleSubmit}>
         <input type="text" placeholder="Nome" value={form.name} onChange={(e) => setForm({ ...form, name: e.target.value })} required />
@@ -87,6 +200,7 @@ export const Admin = () => {
           </li>
         ))}
       </ul>
+	</AdminArea>
     </div>
   );
 };

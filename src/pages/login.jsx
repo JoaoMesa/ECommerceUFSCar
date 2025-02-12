@@ -17,6 +17,12 @@ const LoginArea = styled.div`
     gap: 15px;
     width: 300px;
   }
+  
+  label {
+    display: flex;
+    flex-direction: column;
+    gap: 5px;
+  }
 
   input {
     padding: 8px;
@@ -100,7 +106,7 @@ export const Login = () => {
             />
           </label>
           <label>
-            Password:
+            Senha:
             <input
               type="password"
               name="password"
