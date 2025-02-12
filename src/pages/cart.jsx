@@ -27,13 +27,12 @@ export const Cart = () => {
   return (
     <div>
       <Header />
-      {loggedUser && <p>Bem-vindo, {loggedUser.username}!</p>}
-      <h3>{`SubTotal: R$ ${subTotal}`}</h3>
+      <h3>{`Preço Total: R$ ${subTotal}`}</h3>
       <ProductArea>
         {data.map((e) => (
           <div key={e.id}>
-            <h4>{e.title}</h4>
-            <img src={e.thumbnail} alt={e.title} />
+            <h4>{e.name}</h4>
+            <img src={e.image} alt={e.image} />
             <h4>{`R$ ${e.price}`}</h4>
             <button onClick={() => removeItem(e)}>
               <BsFillCartDashFill size={40} />

@@ -32,7 +32,7 @@ const LoginArea = styled.div`
   }
 `;
 
-export const Login = () => {
+export const LoginAdmin = () => {
   const [formData, setFormData] = useState({
     email: '',
     password: ''
@@ -50,7 +50,7 @@ export const Login = () => {
     e.preventDefault();
 
     try {
-      const response = await fetch('http://localhost:5000/signin', {
+      const response = await fetch('http://localhost:5000/signin/admin', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json'
@@ -110,9 +110,9 @@ export const Login = () => {
             />
           </label>
           <button type="submit">Login</button>
-		<button type="button" onClick={() => history.push('/loginadmin')}>
-  	Login como Administrador
-	</button>
+	  <button type="button" onClick={() => history.push('/login')}>
+  Login como Usuário
+</button>
 
         </form>
       </LoginArea>

@@ -34,9 +34,9 @@ const SignupArea = styled.div`
 
 export const Signup = () => {
   const [formData, setFormData] = useState({
-    username: '',
     email: '',
-    password: ''
+    password: '',
+    confirmPassword: ''
   });
   const history = useHistory();
 
@@ -47,15 +47,31 @@ export const Signup = () => {
     }));
   };
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
-    // Save the new user profile with a default role of 'user'
-    const newUser = { ...formData, role: 'user' };
-    setItem('userProfile', newUser);
-    // Automatically log in the new user:
-    setItem('loggedUser', newUser);
-    alert('Profile created and logged in!');
-    history.push('/');
+
+    try {
+      const response = await fetch('http://localhost:5000/signup', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify(formData)
+      });
+
+      if (response.status === 201) {
+        alert('Usuario criado!!');
+        history.push('/');
+      } else if (response.status === 422 || response.status === 409) {
+        const errorData = await response.text();
+        alert(errorData);
+      } else {
+        alert('An unexpected error occurred');
+      }
+    } catch (error) {
+      console.error('Signup error:', error);
+      alert('Failed to connect to the server');
+    }
   };
 
   return (
@@ -64,16 +80,6 @@ export const Signup = () => {
       <SignupArea>
         <h2>Sign Up</h2>
         <form onSubmit={handleSubmit}>
-          <label>
-            Username:
-            <input
-              type="text"
-              name="username"
-              value={formData.username}
-              onChange={handleChange}
-              required
-            />
-          </label>
           <label>
             Email:
             <input
@@ -94,9 +100,20 @@ export const Signup = () => {
               required
             />
           </label>
+          <label>
+            Confirm Password:
+            <input
+              type="password"
+              name="confirmPassword"
+              value={formData.confirmPassword}
+              onChange={handleChange}
+              required
+            />
+          </label>
           <button type="submit">Sign Up</button>
         </form>
       </SignupArea>
     </div>
   );
 };
+

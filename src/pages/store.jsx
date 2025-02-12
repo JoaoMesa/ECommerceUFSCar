@@ -11,10 +11,11 @@ export const Store = () => {
 
     useEffect(() => {
         const fetchApi = async () => {
-            const url = 'https://api.mercadolibre.com/sites/MLB/search?q=variant 2';
+            const url = 'http://localhost:5000/products';
             const response = await fetch(url);
             const objJson = await response.json();
-            setData(objJson.results);
+            setData(objJson);
+            console.log(objJson);
         };
         fetchApi();
     }, []);
@@ -41,8 +42,8 @@ export const Store = () => {
             <ProductArea>
                 {data.map((e) => (
                     <div key={e.id}>
-                        <h4>{e.title}</h4>
-                        <img src={e.thumbnail} alt="" />
+                        <h4>{e.name}</h4>
+                        <img src={e.image} alt="" />
                         <h4>{`R$ ${e.price}`}</h4>
                         <button onClick={() => handleClick(e)}>
                             {cart.some((itemCart) => itemCart.id === e.id) ? (

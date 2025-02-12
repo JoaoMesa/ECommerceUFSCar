@@ -72,12 +72,13 @@ export const Header = () => {
   useEffect(() => {
     const user = getItem("loggedUser");
     if (user) {
-      setLoggedUser(user);
+      setLoggedUser(JSON.parse(user));  // Armazena o objeto do usuário
     }
   }, []);
 
   const handleLogout = () => {
-    setItem("loggedUser", null);
+    localStorage.removeItem("loggedUser");
+    localStorage.removeItem("authToken");
     setLoggedUser(null);
     history.push("/");
   };
@@ -93,14 +94,12 @@ export const Header = () => {
         />
       </div>
       <nav>
-        {/* "Perfil" dropdown is still used as the login/logout control */}
         {loggedUser ? (
           <Dropdown>
             <h2 onClick={() => setDropdownVisible(!dropdownVisible)}>
               Perfil
             </h2>
             <DropdownContent show={dropdownVisible}>
-              {/* Removed Profile link */}
               {loggedUser.role === "admin" && <Link to="/admin">Admin Page</Link>}
               <div onClick={handleLogout}>Logout</div>
             </DropdownContent>
@@ -122,3 +121,4 @@ export const Header = () => {
     </HeaderArea>
   );
 };
+
