@@ -1,13 +1,15 @@
 import React, { useState, useEffect } from "react";
 import { getItem } from "../services/LocalStorageFuncs";
 
-export const Admin = () => {
+export const AdminProducts = () => {
   const [products, setProducts] = useState([]);
+  const [categories, setCategories] = useState([]);
   const [form, setForm] = useState({ name: "", description: "", image: "", price: "", categoryId: "" });
   const [editingId, setEditingId] = useState(null);
 
   useEffect(() => {
     fetchProducts();
+    fetchCategories();
   }, []);
 
   const fetchProducts = async () => {
@@ -23,6 +25,19 @@ export const Admin = () => {
     }
   };
 
+  const fetchCategories = async () => {
+    const token = getItem("authToken");
+    try {
+      const response = await fetch("http://localhost:5000/categories", {
+        headers: { Authorization: `Bearer ${token}` }
+      });
+      const data = await response.json();
+      setCategories(data);
+    } catch (error) {
+      console.error("Erro ao buscar categorias", error);
+    }
+  };
+
   const handleSubmit = async (e) => {
     e.preventDefault();
     const token = getItem("authToken");
@@ -30,7 +45,6 @@ export const Admin = () => {
     const url = editingId ? `http://localhost:5000/products/${editingId}` : "http://localhost:5000/products";
     
     try {
-      console.log(form);
       const { id, createdAt, updatedAt, ...formData } = form;
       await fetch(url, {
         method,
@@ -74,7 +88,12 @@ export const Admin = () => {
         <input type="text" placeholder="Descrição" value={form.description} onChange={(e) => setForm({ ...form, description: e.target.value })} required />
         <input type="url" placeholder="Imagem" value={form.image} onChange={(e) => setForm({ ...form, image: e.target.value })} required />
         <input type="number" placeholder="Preço" value={form.price} onChange={(e) => setForm({ ...form, price: e.target.value })} required />
-        <input type="number" placeholder="Categoria ID" value={form.categoryId} onChange={(e) => setForm({ ...form, categoryId: e.target.value })} required />
+        <select value={form.categoryId} onChange={(e) => setForm({ ...form, categoryId: e.target.value })} required>
+          <option value="">Selecione uma Categoria</option>
+          {categories.map((category) => (
+            <option key={category.id} value={category.id}>{category.name}</option>
+          ))}
+        </select>
         <button type="submit">{editingId ? "Atualizar" : "Adicionar"}</button>
       </form>
       <ul>
