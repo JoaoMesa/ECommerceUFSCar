@@ -11,6 +11,12 @@ const LoginArea = styled.div`
   align-items: center;
   margin-top: 50px;
 
+  label {
+    display: flex;
+    flex-direction: column;
+    gap: 5px;
+  }
+
   form {
     display: flex;
     flex-direction: column;
@@ -100,7 +106,7 @@ export const LoginAdmin = () => {
             />
           </label>
           <label>
-            Password:
+            Senha:
             <input
               type="password"
               name="password"

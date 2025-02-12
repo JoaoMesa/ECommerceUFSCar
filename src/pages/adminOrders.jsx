@@ -1,5 +1,8 @@
 import React, { useState, useEffect } from "react";
 import { getItem } from "../services/LocalStorageFuncs";
+import { AdminHeader} from "../components/AdminHeader";
+
+
 
 export const AdminOrders = () => {
   const [orders, setOrders] = useState([]);
@@ -53,6 +56,7 @@ export const AdminOrders = () => {
 
   return (
     <div>
+	< AdminHeader/ >
       <h2>Gerenciar Pedidos</h2>
       <ul>
         {orders.map((order) => (
