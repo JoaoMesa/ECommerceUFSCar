@@ -45,8 +45,10 @@ const PurchaseButton = styled.button`
 
 const QuantityControl = styled.div`
   display: flex;
+  flex-direction: row;
   align-items: center;
   gap: 10px;
+  white-space: nowrap;
   margin: 10px 0;
 
   button {
@@ -165,27 +167,27 @@ export const Cart = () => {
             <img src={e.image} alt={e.name} />
             <h4>{`R$ ${(e.price * e.quantity).toFixed(2)}`}</h4>
             
-         <QuantityControl>
-  <button 
+    
+<QuantityControl>
+  <button onClick={() => updateQuantity(e.id, e.quantity + 1)}>
+    <BsPlus size={14} /> </button><span>{e.quantity}</span>  <button 
     onClick={() => updateQuantity(e.id, e.quantity - 1)}
     disabled={e.quantity === 1}
   >
     <BsDash size={14} />
   </button>
-  
-  <span>{e.quantity}</span>
-  
-  <button onClick={() => updateQuantity(e.id, e.quantity + 1)}>
-    <BsPlus size={14} />
-  </button>
 </QuantityControl>
+
+
+
 
             <button 
               onClick={() => removeItem(e)}
               style={{ 
                 background: 'transparent',
                 border: 'none',
-                padding: '5px'
+                padding: '5px',
+                marginBottom: '50px' 
               }}
             >
               <BsFillCartDashFill size={24} color="#dc3545" />

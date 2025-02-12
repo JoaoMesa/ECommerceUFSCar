@@ -9,9 +9,7 @@ export const ProductArea = styled.div`
     margin-bottom: 70px;
     margin-top: 20px;
 
-    
-
-    div {
+    > div {
         height: 320px;
         width: 250px;
         border: 2px solid rgb(88, 33, 105);
@@ -32,6 +30,6 @@ export const ProductArea = styled.div`
             width: 160px; /* Altere o valor conforme necessário */
             height: 140px;
         }
-
     }
 `;
+
