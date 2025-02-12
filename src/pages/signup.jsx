@@ -17,6 +17,12 @@ const SignupArea = styled.div`
     gap: 15px;
     width: 300px;
   }
+  
+  label {
+    display: flex;
+    flex-direction: column;
+    gap: 5px;
+  }
 
   input {
     padding: 8px;
@@ -31,6 +37,7 @@ const SignupArea = styled.div`
     cursor: pointer;
   }
 `;
+
 
 export const Signup = () => {
   const [formData, setFormData] = useState({
