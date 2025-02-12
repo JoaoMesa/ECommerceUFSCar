@@ -68,7 +68,7 @@ export const LoginAdmin = () => {
 	  setItem('loggedUser', true); // Salva o estado de login como "true"
 
 	  alert('Login realizado com sucesso');
-	  history.push('/');
+	  history.push('/admin');
 	}
 	else if (response.status === 401) {
         alert('Email ou senha incorretos');
